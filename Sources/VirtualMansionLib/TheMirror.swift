@@ -8,14 +8,14 @@ import Foundation
 import Sword
 import os
 
-struct TheMirror: Bot {
+public struct TheMirror: Bot {
     private let bot: Sword
     
-    init(token: String) {
+    public init(token: String) {
         bot = Sword(token: token)
     }
     
-    func run() {
+    public func run() {
         bot.editStatus(to: "online", playing: "with your heart")
         
         bot.on(.voiceChannelJoin) { data in

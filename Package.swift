@@ -8,9 +8,14 @@ let package = Package(
     platforms: [
        .macOS(.v11),
     ],
+    products: [
+        .executable(name: "VirtualMansion", targets: ["VirtualMansion"]),
+        .library(name: "VirtualMansionLib", targets: ["VirtualMansionLib"]),
+    ],
     dependencies: [
         .package(url: "https://github.com/Azoy/Sword", .branch("master")),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.3.0"),
+        .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.12.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -18,11 +23,18 @@ let package = Package(
         .target(
             name: "VirtualMansion",
             dependencies: [
+                "VirtualMansionLib",
                 "Sword",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]),
+        .target(
+            name: "VirtualMansionLib",
+            dependencies: [
+                "Sword",
+                .product(name: "SQLite", package: "SQLite.swift"),
+            ]),
         .testTarget(
             name: "VirtualMansionTests",
-            dependencies: ["VirtualMansion", "Sword"]),
+            dependencies: ["VirtualMansionLib", "Sword"]),
     ]
 )

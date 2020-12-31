@@ -1,4 +1,5 @@
 import ArgumentParser
+import VirtualMansionLib
 
 struct VirtualMansion: ParsableCommand {
     static let configuration = CommandConfiguration(abstract: "If you have to ask you're not invited.",
@@ -41,8 +42,3 @@ struct VirtualMansion: ParsableCommand {
 }
 
 VirtualMansion.main()
-
-protocol Bot {
-    init(token: String)
-    func run()
-}

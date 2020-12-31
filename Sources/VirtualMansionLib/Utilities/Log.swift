@@ -7,15 +7,15 @@
 import Foundation
 import os
 
-var verboseLoggingEnabled = false
+public var verboseLoggingEnabled = false
 
-enum LogLevel {
+public enum LogLevel {
     case `default`
     case error
     case debug
 }
 
-func log(level: LogLevel = .default, _ string: String) {
+public func log(level: LogLevel = .default, _ string: String) {
     switch level {
     case .default:
         print(string)
