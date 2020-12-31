@@ -1,5 +1,6 @@
 import ArgumentParser
 import VirtualMansionLib
+import Sword
 
 struct VirtualMansion: ParsableCommand {
     static let configuration = CommandConfiguration(abstract: "If you have to ask you're not invited.",
@@ -28,16 +29,33 @@ struct VirtualMansion: ParsableCommand {
         
         log("You have entered the mansion.")
         
-        let bot: Bot
+        let token: String
         if let mirrorToken = mirrorToken {
-            bot = TheMirror(token: mirrorToken)
+            token = mirrorToken
         } else if let awardToken = awardToken {
-            bot = AwardLord(token: awardToken)
+            token = awardToken
         } else {
             fatalError()
         }
         
-        bot.run()
+        let sword = Sword(token: token)
+        sword.getGuild(.publicHouse, rest: true) { (guild, error) in
+            guard let guild = guild else {
+                fatalError("Could not find public house guild: \(error.debugDescription)")
+            }
+            
+            let bot: Bot
+            if mirrorToken != nil {
+                bot = TheMirror(sword: sword, guild: guild)
+            } else if awardToken != nil {
+                bot = AwardLord(sword: sword, guild: guild)
+            } else {
+                fatalError()
+            }
+            
+            bot.run()
+        }
+        sword.connect()
     }
 }
 

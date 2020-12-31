@@ -60,6 +60,13 @@ enum KnownChannel: UInt64 {
     case narnia = 793747690621108274 // Secret, may be deleted?
     case caveOfTime = 794105543639826473 // Secret
     case caveOpening = 794113728588546088 // Secret
+    
+    // Text
+    case awardAnnouncements = 794107875940368385
+    
+    var snowflake: Snowflake {
+        Snowflake(rawValue: rawValue)
+    }
 }
 
 extension Snowflake {

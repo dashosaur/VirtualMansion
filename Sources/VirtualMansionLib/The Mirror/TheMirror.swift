@@ -9,22 +9,24 @@ import Sword
 import os
 
 public struct TheMirror: Bot {
-    private let bot: Sword
+    private let sword: Sword
+    private let guild: Guild
     
-    public init(token: String) {
-        bot = Sword(token: token)
+    public init(sword: Sword, guild: Guild) {
+        self.sword = sword
+        self.guild = guild
     }
     
     public func run() {
-        bot.editStatus(to: "online", playing: "with your heart")
+        sword.editStatus(to: "online", playing: "with your heart")
         
-        bot.on(.voiceChannelJoin) { data in
+        sword.on(.voiceChannelJoin) { data in
             guard let (snowflake, voiceState) = data as? (Snowflake, VoiceState) else {
                 log(level: .error, "Invalid data of type: \(type(of: data))")
                 return
             }
             log(level: .debug, "Joined voice channel\n  Snowflake: \(snowflake)\n  Voice state: \(String(describing: voiceState))")
-            bot.getUser(snowflake) { (user, error) in
+            sword.getUser(snowflake) { (user, error) in
                 guard let user = user else {
                     log(level: .error, "Invalid user: \(String(describing: error))")
                     return
@@ -43,20 +45,18 @@ public struct TheMirror: Bot {
                 }
             }
         }
-        
-        bot.connect()
     }
     
     func complimentUser(_ user: User, reversed: Bool = false) {
         log("Complimenting " + "@\(user.username ?? String(user.id.rawValue))".cyan() + (reversed ? " in reverse" : ""))
         
         let compliment = String.compliments.randomElement()!
-        bot.getDM(for: user.id) { (dm, error) in
+        sword.getDM(for: user.id) { (dm, error) in
             guard let dm = dm else {
                 log(level: .error, "Invalid DM: \(String(describing: error))")
                 return
             }
-            bot.send(reversed ? String(compliment.reversed()) : compliment, to: dm.id)
+            sword.send(reversed ? String(compliment.reversed()) : compliment, to: dm.id)
         }
     }
 }

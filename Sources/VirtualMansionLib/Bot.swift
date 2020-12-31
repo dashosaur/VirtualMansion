@@ -5,9 +5,9 @@
 //  Created by Allan Shortlidge on 12/31/20.
 //
 
-import Foundation
+import Sword
 
 public protocol Bot {
-    init(token: String)
+    init(sword: Sword, guild: Guild)
     func run()
 }
