@@ -25,10 +25,19 @@ struct VirtualMansion: ParsableCommand {
     func run() {
         print("You have entered the mansion.")
         
+        var bot: Bot
+        var token: String
         if let mirrorToken = mirrorToken {
-            let bot = TheMirror()
-            bot.run(token: mirrorToken)
+            bot = TheMirror()
+            token = mirrorToken
+        } else if let awardToken = awardToken {
+            bot = AwardLord()
+            token = awardToken
+        } else {
+            fatalError()
         }
+        
+        bot.run(token: token)
     }
 }
 

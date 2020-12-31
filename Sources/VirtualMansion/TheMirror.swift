@@ -57,7 +57,7 @@ struct TheMirror: Bot {
             let msg = data as! Message
             
             if msg.content == "!ping" {
-                msg.reply(with: "Pong (Mirror)!")
+                msg.reply(with: "Pong (The Mirror)!")
             }
         }
         
