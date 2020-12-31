@@ -12,7 +12,7 @@ public struct TheMirror: Bot {
     private let sword: Sword
     private let guild: Guild
     
-    public init(sword: Sword, guild: Guild) {
+    public init(sword: Sword, guild: Guild, database: Database) {
         self.sword = sword
         self.guild = guild
     }

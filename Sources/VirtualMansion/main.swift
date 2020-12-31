@@ -24,8 +24,10 @@ struct VirtualMansion: ParsableCommand {
         }
     }
     
-    func run() {
+    func run() throws {
         verboseLoggingEnabled = verbose
+        
+        let database = try Database(path: nil)
         
         log("You have entered the mansion.")
         
@@ -46,9 +48,9 @@ struct VirtualMansion: ParsableCommand {
             
             let bot: Bot
             if mirrorToken != nil {
-                bot = TheMirror(sword: sword, guild: guild)
+                bot = TheMirror(sword: sword, guild: guild, database: database)
             } else if awardToken != nil {
-                bot = AwardLord(sword: sword, guild: guild)
+                bot = AwardLord(sword: sword, guild: guild, database: database)
             } else {
                 fatalError()
             }

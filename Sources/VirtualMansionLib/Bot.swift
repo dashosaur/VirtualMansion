@@ -8,6 +8,6 @@
 import Sword
 
 public protocol Bot {
-    init(sword: Sword, guild: Guild)
+    init(sword: Sword, guild: Guild, database: Database)
     func run()
 }
