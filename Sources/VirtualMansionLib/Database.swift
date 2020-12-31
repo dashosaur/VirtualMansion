@@ -85,7 +85,6 @@ extension Visits {
         
         let stmt = try connection.prepare(insertSQL)
         try stmt.run(user, channel, lastVisit.timeIntervalSinceReferenceDate)
-        print(connection.totalChanges)
     }
     
     func fetchChannelVisitCounts(with connection: Connection, for userID: Int64) throws -> [Int64: Int64] {

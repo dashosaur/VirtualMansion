@@ -13,7 +13,9 @@ enum Award: UInt64 {
     var snowflake: Snowflake {
         Snowflake(rawValue: rawValue)
     }
-    
+}
+
+extension Award {
     var inlineName: String {
         switch self {
         case .gamer:

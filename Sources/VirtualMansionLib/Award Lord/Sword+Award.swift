@@ -7,17 +7,7 @@
 import Sword
 
 extension Sword {
-    func grantAward(_ award: Award, to userID: Snowflake) {
-        getMember(userID, from: .publicHouse) { (member, error) in
-            guard let member = member else {
-                log(level: .error, "Could not find member for \(userID): \(error.debugDescription)")
-                return
-            }
-            self.grantAward(award, to: member)
-        }
-    }
-    
-    private func grantAward(_ award: Award, to member: Member) {
+    func grantAward(_ award: Award, to member: Member) {
         let currentRoles = member.roles.map { $0.id.rawValue }
         guard !currentRoles.contains(award.rawValue) else {
             log(level: .error, "\(member.user.debugIdenitifier) already has the \(award) award, ignoring request to grant")

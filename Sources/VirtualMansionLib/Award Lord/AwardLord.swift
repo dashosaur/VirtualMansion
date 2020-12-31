@@ -29,15 +29,22 @@ public struct AwardLord: Bot {
             }
             log(level: .debug, "Joined voice channel\n  userID: \(userID)\n  Voice state: \(String(describing: voiceState))")
             
-            do {
-                try onChannelJoin(userID: userID, voiceState: voiceState)
-            } catch {
-                log(level: .error, "Failed to handle channel join: \(error)")
-            }
-
-            // TODO: remove once we have a generic engine
-            if voiceState.channelId.rawValue == KnownChannel.largeTable.rawValue {
-                sword.grantAward(.gamer, to: userID)
+            sword.getMember(userID, from: .publicHouse) { (member, error) in
+                guard let member = member else {
+                    log(level: .error, "Could not find member for \(userID): \(error.debugDescription)")
+                    return
+                }
+                
+                do {
+                    try onChannelJoin(userID: userID, voiceState: voiceState)
+                } catch {
+                    log(level: .error, "Failed to handle channel join: \(error)")
+                }
+                
+                // TODO: remove once we have a generic engine
+                if voiceState.channelId.rawValue == KnownChannel.largeTable.rawValue {
+                    sword.grantAward(.gamer, to: member)
+                }
             }
         }
 
@@ -56,6 +63,8 @@ public struct AwardLord: Bot {
         }
         
         try database.addVisit(to: knownChannel, by: userID.rawValue)
+        
+        // TODO: Call engine.eval(for: userID, with: [Channel: Count])
     }
 
 }
