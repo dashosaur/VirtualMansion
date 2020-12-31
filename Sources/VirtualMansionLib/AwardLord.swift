@@ -20,11 +20,10 @@ public struct AwardLord: Bot {
 
         bot.on(.voiceChannelJoin) { data in
             guard let (snowflake, voiceState) = data as? (Snowflake, VoiceState) else {
-                print("invalid data type: \(type(of: data))")
+                log(level: .error, "Invalid data of type: \(type(of: data))")
                 return
             }
-            print("!snowflake: \(snowflake)")
-            print("!voice state: \(voiceState)")
+            log(level: .debug, "Joined voice channel\n  Snowflake: \(snowflake)\n  Voice state: \(String(describing: voiceState))")
         }
 
         bot.on(.messageCreate) { data in

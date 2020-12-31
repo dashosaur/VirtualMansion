@@ -23,20 +23,23 @@ public struct TheMirror: Bot {
                 log(level: .error, "Invalid data of type: \(type(of: data))")
                 return
             }
-            log(level: .debug, "Voice channel joined\n  Snowflake: \(snowflake)\n  Voice state: \(String(describing: voiceState))")
+            log(level: .debug, "Joined voice channel\n  Snowflake: \(snowflake)\n  Voice state: \(String(describing: voiceState))")
             bot.getUser(snowflake) { (user, error) in
                 guard let user = user else {
                     log(level: .error, "Invalid user: \(String(describing: error))")
                     return
                 }
                 
-                switch voiceState.channelId.knownChannel {
+                let knownChannel = voiceState.channelId.knownChannel
+                switch knownChannel {
                 case .hallwayMirror:
                     complimentUser(user)
                 case .hallwayMirrorReverse:
                     complimentUser(user, reversed: true)
                 case .none:
-                    log("Unknown channel: \(voiceState.channelId.rawValue)")
+                    log(level: .error, "Unknown channel: \(voiceState.channelId.rawValue)")
+                default:
+                    log(level: .debug, "Irrelevant channel: \(knownChannel!)")
                 }
             }
         }
@@ -45,7 +48,7 @@ public struct TheMirror: Bot {
     }
     
     func complimentUser(_ user: User, reversed: Bool = false) {
-        log("Complimenting \(user.username ?? String(user.id.rawValue))")
+        log("Complimenting " + "@\(user.username ?? String(user.id.rawValue))".cyan() + (reversed ? " in reverse" : ""))
         
         let compliment = String.compliments.randomElement()!
         bot.getDM(for: user.id) { (dm, error) in

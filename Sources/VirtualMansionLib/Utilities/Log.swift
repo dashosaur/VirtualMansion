@@ -20,10 +20,10 @@ public func log(level: LogLevel = .default, _ string: String) {
     case .default:
         print(string)
     case .error:
-        print("ERROR: " + string)
+        print("ERROR: ".bold().pink() + string)
     case .debug:
         if verboseLoggingEnabled {
-            print(string)
+            print(string.italics())
         }
     }
 }

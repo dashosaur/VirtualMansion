@@ -26,7 +26,7 @@ struct VirtualMansion: ParsableCommand {
     func run() {
         verboseLoggingEnabled = verbose
         
-        print("You have entered the mansion.")
+        log("You have entered the mansion.")
         
         let bot: Bot
         if let mirrorToken = mirrorToken {
