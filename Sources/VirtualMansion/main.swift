@@ -23,26 +23,26 @@ struct VirtualMansion: ParsableCommand {
     }
     
     func run() {
+        verboseLoggingEnabled = verbose
+        
         print("You have entered the mansion.")
         
-        var bot: Bot
-        var token: String
+        let bot: Bot
         if let mirrorToken = mirrorToken {
-            bot = TheMirror()
-            token = mirrorToken
+            bot = TheMirror(token: mirrorToken)
         } else if let awardToken = awardToken {
-            bot = AwardLord()
-            token = awardToken
+            bot = AwardLord(token: awardToken)
         } else {
             fatalError()
         }
         
-        bot.run(token: token)
+        bot.run()
     }
 }
 
 VirtualMansion.main()
 
 protocol Bot {
-    func run(token: String)
+    init(token: String)
+    func run()
 }

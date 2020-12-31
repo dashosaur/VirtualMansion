@@ -6,62 +6,55 @@
 
 import Foundation
 import Sword
+import os
 
 struct TheMirror: Bot {
-    func run(token: String) {
-        let bot = Sword(token: token)
-        
+    private let bot: Sword
+    
+    init(token: String) {
+        bot = Sword(token: token)
+    }
+    
+    func run() {
         bot.editStatus(to: "online", playing: "with your heart")
         
         bot.on(.voiceChannelJoin) { data in
             guard let (snowflake, voiceState) = data as? (Snowflake, VoiceState) else {
-                print("invalid data type: \(type(of: data))")
+                log(level: .error, "Invalid data of type: \(type(of: data))")
                 return
             }
-            print("!snowflake: \(snowflake)")
-            print("!voice state: \(voiceState)")
-        }
-        
-        bot.on(.voiceChannelJoin) { data in
-            guard let (snowflake, voiceState) = data as? (Snowflake, VoiceState) else {
-                print("invalid data type: \(type(of: data))")
-                return
-            }
-            print("snowflake: \(snowflake)")
-            print("voice state: \(voiceState)")
-            if voiceState.channelId.rawValue == 793709576112570429 {
-                print("entered mirror")
-                bot.getDM(for: snowflake) { (dm, error) in
-                    guard let dm = dm else {
-                        print("error: \(error.debugDescription)")
-                        return
-                    }
-                    bot.send(String.compliments.randomElement() ?? "", to: dm.id)
+            log(level: .debug, "Voice channel joined\n  Snowflake: \(snowflake)\n  Voice state: \(String(describing: voiceState))")
+            bot.getUser(snowflake) { (user, error) in
+                guard let user = user else {
+                    log(level: .error, "Invalid user: \(String(describing: error))")
+                    return
                 }
-            } else if voiceState.channelId.rawValue == 794080225645953055 {
-                print("entered reverse mirror")
-                bot.getDM(for: snowflake) { (dm, error) in
-                    guard let dm = dm else {
-                        print("error: \(error.debugDescription)")
-                        return
-                    }
-                    bot.send(String(String.compliments.randomElement()!.reversed()), to: dm.id)
+                
+                switch voiceState.channelId.knownChannel {
+                case .hallwayMirror:
+                    complimentUser(user)
+                case .hallwayMirrorReverse:
+                    complimentUser(user, reversed: true)
+                case .none:
+                    log("Unknown channel: \(voiceState.channelId.rawValue)")
                 }
-            } else {
-                print("entered \(voiceState.channelId.rawValue)")
-            }
-        }
-        
-        bot.on(.messageCreate) { data in
-            
-            let msg = data as! Message
-            
-            if msg.content == "!ping" {
-                msg.reply(with: "Pong (The Mirror)!")
             }
         }
         
         bot.connect()
+    }
+    
+    func complimentUser(_ user: User, reversed: Bool = false) {
+        log("Complimenting \(user.username ?? String(user.id.rawValue))")
+        
+        let compliment = String.compliments.randomElement()!
+        bot.getDM(for: user.id) { (dm, error) in
+            guard let dm = dm else {
+                log(level: .error, "Invalid DM: \(String(describing: error))")
+                return
+            }
+            bot.send(reversed ? String(compliment.reversed()) : compliment, to: dm.id)
+        }
     }
 }
 

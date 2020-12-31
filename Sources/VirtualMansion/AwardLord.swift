@@ -9,10 +9,13 @@ import Foundation
 import Sword
 
 struct AwardLord: Bot {
+    private let bot: Sword
     
-    func run(token: String) {
-        let bot = Sword(token: token)
-        
+    init(token: String) {
+        bot = Sword(token: token)
+    }
+    
+    func run() {
         bot.editStatus(to: "online", playing: "judging your achievements")
 
         bot.on(.voiceChannelJoin) { data in

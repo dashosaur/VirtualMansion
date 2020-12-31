@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "VirtualMansion",
+    platforms: [
+       .macOS(.v11),
+    ],
     dependencies: [
         .package(url: "https://github.com/Azoy/Sword", .branch("master")),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.3.0"),
