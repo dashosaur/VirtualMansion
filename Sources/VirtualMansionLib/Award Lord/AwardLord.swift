@@ -8,6 +8,11 @@
 import Foundation
 import Sword
 
+enum AwardCommand: String {
+    case awards
+    case ping
+}
+
 public struct AwardLord: Bot {
     public var botName: String { "Award Lord" }
     private let database: Database
@@ -49,10 +54,16 @@ public struct AwardLord: Bot {
 
         sword.on(.messageCreate) { data in
             let msg = data as! Message
-            
-            if msg.content == "!ping" {
-                msg.reply(with: "Pong (Award Lord)!")
+            guard msg.content.starts(with: "!") else {
+                return
             }
+            
+            guard let command = AwardCommand(rawValue: String(msg.content.dropFirst())) else {
+                log("Award Bot: Unrecognized command \"\(msg.content)\"")
+                return
+            }
+            
+            onCommand(command, message: msg)
         }
     }
     
@@ -71,6 +82,21 @@ public struct AwardLord: Bot {
             newAwards.forEach {
                 sword.grantAward($0, to: member)
             }
+        }
+    }
+    
+    func onCommand(_ command: AwardCommand, message msg: Message) {
+        switch command {
+        case .awards:
+            let myAwards = msg.member?.awards ?? []
+            let nickname = msg.member?.nick ?? "<unknown>"
+            let availableAwards = Set(myAwards).symmetricDifference(Award.allCases)
+            let myAwardsDescription = myAwards.map { $0.fullName }.joined(separator: "\n")
+            let availableAwardsDescription = availableAwards.map { $0.fullName }.joined(separator: "\n")
+
+            msg.reply(with: "\(nickname)'s Awards:\n\(myAwardsDescription)\n\nAvailable Awards:\n\(availableAwardsDescription)")
+        case .ping:
+            msg.reply(with: "Pong (Award Lord)!")
         }
     }
 }

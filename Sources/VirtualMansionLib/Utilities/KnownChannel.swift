@@ -86,11 +86,8 @@ extension KnownChannel {
         .blanketFort,
         .slopedRoof,
         .creakyRoof,
-        .fatefulCup,
         .redCouch,
         .narnia,
-        .caveOfTime,
-        .caveOpening,
     ])
 }
 

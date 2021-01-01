@@ -17,19 +17,26 @@ enum Award: UInt64 {
     }
 }
 
-extension Award {
+extension Award: CaseIterable {
     var inlineName: String {
         switch self {
-        case .gamer:
-            return "gamer"
-        case .narcissisticNarwhal:
-            return "narcissistic narwhal"
-        case .sleuth:
-            return "sleuth"
-        case .socialButterfly:
-            return "social butterfly"
+        case .gamer:                return "gamer"
+        case .narcissisticNarwhal:  return "narcissistic narwhal"
+        case .sleuth:               return "sleuth"
+        case .socialButterfly:      return "social butterfly"
         }
     }
+    
+    var emojiName: String {
+        switch self {
+        case .gamer:                return "🕹"
+        case .narcissisticNarwhal:  return "🦄"
+        case .sleuth:               return "🔎"
+        case .socialButterfly:      return "🦋"
+        }
+    }
+    
+    var fullName: String { "\(emojiName) \(inlineName)" }
     
     private static let genericAnnouncementOptions: [String] = [
         "<user> just earned the <award> award. Congratulations!",
