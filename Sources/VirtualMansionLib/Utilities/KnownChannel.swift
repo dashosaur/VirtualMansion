@@ -21,6 +21,7 @@ enum KnownChannel: UInt64 {
     case broomCloset = 792960131759472680
     case powderRoom = 793719742040637440
     case pantry = 793719649740128288
+    case garage = 794370628840587274 // Secret, fall through from Creaky Roof
     
     // 2nd Floor
     case bayWindowSeat = 793708380762013717
@@ -33,9 +34,10 @@ enum KnownChannel: UInt64 {
     case bathroom = 793739712153911326
     
     // 3rd Floor
-    case slopedRoof = 793710314741956648 // Secret
     case turret = 792973260815597569
     case observatory = 793709369086705737
+    case slopedRoof = 793710314741956648 // Secret, reach from Observatory
+    case creakyRoof = 794369749348909066 // Secret, reach from Sloped Roof
     
     // Backyard
     case firepit = 792970916330078228

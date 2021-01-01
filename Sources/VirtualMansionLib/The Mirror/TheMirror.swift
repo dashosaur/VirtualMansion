@@ -38,7 +38,7 @@ public struct TheMirror: Bot {
     }
     
     func complimentUser(_ user: User, reversed: Bool = false) {
-        log("Complimenting " + "@\(user.username ?? String(user.id.rawValue))".cyan() + (reversed ? " in reverse" : ""))
+        log("Complimenting \(user.debugIdenitifier)\(reversed ? " in reverse" : "")")
         
         let compliment = String.compliments.randomElement()!
         sword.getDM(for: user.id) { (dm, error) in
