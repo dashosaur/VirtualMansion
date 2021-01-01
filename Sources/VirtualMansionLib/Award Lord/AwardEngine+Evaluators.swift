@@ -9,7 +9,7 @@ import Foundation
 
 extension AwardEngine {
     mutating func setUpDefaultEvaluators() {
-        // 🕹 Gamer: Any visited channel is a gaming channel.
+        // 🕹 Gamer: Visit any gaming channel.
         addEvaluator { userState in
             guard !userState.existingAwards.contains(.gamer) else { return nil }
             return KnownChannel.gamerChannels.isDisjoint(with: userState.visitedChannels) ? nil : .gamer
@@ -27,16 +27,34 @@ extension AwardEngine {
             return KnownChannel.secretChannels.intersection(userState.visitedChannels).count >= 3 ? .privateEye : nil
         }
         
-        // 🔎 Sleuth: All secret channels have been visited.
+        // 🔎 Sleuth: Visit all secret channels.
         addEvaluator { userState in
             guard !userState.existingAwards.contains(.sleuth) else { return nil }
             return KnownChannel.secretChannels.isSubset(of: userState.visitedChannels) ? .sleuth : nil
         }
         
-        // 🦄 Narcissistic Narwhal: Visited the mirror 10 times.
+        // 🦄 Narcissistic Narwhal: Visit the mirror 10 times.
         addEvaluator { userState in
             guard !userState.existingAwards.contains(.narcissisticNarwhal) else { return nil }
             return userState.channelVisits[.hallwayMirror, default: 0] >= 10 ? .narcissisticNarwhal : nil
+        }
+        
+        // 💄 I Said Goddamn!: Visit the powder room 10 times.
+        addEvaluator { userState in
+            guard !userState.existingAwards.contains(.goddam) else { return nil }
+            return userState.channelVisits[.powderRoom, default: 0] >= 10 ? .goddam : nil
+        }
+        
+        // 🕵️ Cannonball: Enter the hot tub.
+        addEvaluator { userState in
+            guard !userState.existingAwards.contains(.cannonball) else { return nil }
+            return userState.channelVisits[.hotTub, default: 0] >= 1 ? .cannonball : nil
+        }
+        
+        // 💃 Saturday Night Fever: Visit the Discotheque 5 times.
+        addEvaluator { userState in
+            guard !userState.existingAwards.contains(.saturdayNightFever) else { return nil }
+            return userState.channelVisits[.discotheque, default: 0] >= 5 ? .saturdayNightFever : nil
         }
         
         // TODO:
@@ -44,10 +62,7 @@ extension AwardEngine {
 //        Social Caterpillar    🐛    Visit 5 party rooms
 //        Social Chrysalis    🐛👑    Visit 10 party rooms
 //        Hot Tub Tardis    🧖    Be one of 20 simultaneous people in the Hot Tub
-//        Cannonball!    💦    Enter the hot tub
 //        Achievement Unlocked    🏅    Get 5 awards
-//        I Said Goddamn!    💄    Visit the powder room 10 times
-//        Saturday Night Fever    💃    Visit the Discotheque 5 times
 //        Suffering from Quiplash    🤣    Visit the Jackbox Table (3x/20m)
     }
 }
