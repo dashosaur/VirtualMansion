@@ -22,5 +22,12 @@ extension AwardEngine {
             
             return KnownChannel.secretChannels.isSubset(of: userState.visitedChannels) ? .sleuth : nil
         }
+        
+        // 🦄 Narcissistic Narwhal: Visited the mirror 10 times.
+        addEvaluator { userState in
+            guard !userState.existingAwards.contains(.narcissisticNarwhal) else { return nil }
+            
+            return userState.channelVisits[.hallwayMirror, default: 0] >= 10 ? .narcissisticNarwhal : nil
+        }
     }
 }

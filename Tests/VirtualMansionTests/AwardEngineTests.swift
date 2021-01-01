@@ -29,18 +29,32 @@ final class AwardEngineTests: XCTestCase {
         XCTAssertEqual(evaluate(), [])
     }
     
+    func testNarcissisticNarwhalAward() throws {
+        channelVisits[.hallwayMirror] = 9
+        XCTAssertEqual(evaluate(), [])
+        
+        channelVisits[.hallwayMirror] = 10
+        XCTAssertEqual(evaluate(), [.narcissisticNarwhal])
+        XCTAssertEqual(evaluate(), [])
+        
+        channelVisits[.hallwayMirror] = 11
+        XCTAssertEqual(evaluate(), [])
+    }
+    
     func testSleuthAward() throws {
         channelVisits = [
             .hallwayMirrorReverse: 1,
             .blanketFort: 1,
             .slopedRoof: 1,
             .fatefulCup: 1,
-            .redCouch: 1,
             .narnia: 1,
             .caveOfTime: 1,
             .caveOpening: 1,
         ]
 
+        XCTAssertEqual(evaluate(), [])
+        
+        channelVisits[.redCouch] = 1
         XCTAssertEqual(evaluate(), [.sleuth])
         XCTAssertEqual(evaluate(), [])
     }

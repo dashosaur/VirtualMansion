@@ -8,6 +8,7 @@ import Sword
 
 enum Award: UInt64 {
     case gamer = 794303640277483561
+    case narcissisticNarwhal = 794372289462272000
     case sleuth = 794358182846791731
     case socialButterfly = 794304325047681034
     
@@ -21,6 +22,8 @@ extension Award {
         switch self {
         case .gamer:
             return "gamer"
+        case .narcissisticNarwhal:
+            return "narcissistic narwhal"
         case .sleuth:
             return "sleuth"
         case .socialButterfly:
