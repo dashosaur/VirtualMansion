@@ -7,6 +7,9 @@ struct VirtualMansion: ParsableCommand {
     static let configuration = CommandConfiguration(abstract: "If you have to ask you're not invited.",
                                                     subcommands: [])
     
+    @Option(help: "The path to the database.")
+    var db: String?
+    
     @Option(help: "The token for The Mirror bot.")
     var mirrorToken: String?
     
@@ -31,7 +34,7 @@ struct VirtualMansion: ParsableCommand {
     func run() throws {
         verboseLoggingEnabled = debug
         
-        let database = try Database(path: nil)
+        let database = try Database(path: db)
         
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short

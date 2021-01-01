@@ -26,7 +26,6 @@ public struct AwardLord: Bot {
     
     public func run() {
         sword.editStatus(to: "online", playing: "achievement judge")
-        log("Award Lord online.")
 
         sword.on(.voiceChannelJoin) { data in
             guard let (userID, voiceState) = data as? (Snowflake, VoiceState) else {
