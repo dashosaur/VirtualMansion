@@ -38,12 +38,26 @@ extension Award {
     ]
     
     var randomAnnouncementFormat: String {
-        // TODO: custom messages per role
+        var announcements = Self.genericAnnouncementOptions
         switch self {
-//        case .gamer:
-//
+        case .gamer:
+            announcements = [
+                "<user> is quite a player 🕹",
+                "<user>, you're a <award> now! I hope you win!",
+            ]
+        case .narcissisticNarwhal:
+            announcements = [
+                "<user>, you look very pretty tonight. You've been awarded the Narcissistic Narwhal role for looking in the hallway mirror 10 times."
+            ]
+        case .sleuth:
+            announcements = [
+                "Good detective work 🔎, <user>!"
+            ]
+        
         default:
-            return Self.genericAnnouncementOptions.randomElement()!
+            break
         }
+        
+        return announcements.randomElement()!
     }
 }
