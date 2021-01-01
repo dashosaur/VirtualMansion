@@ -25,20 +25,20 @@ extension Sword {
         }
     }
     
-    func onVoiceChannelLeave(do action: @escaping (Member, VoiceState) -> Void) {
+    func onVoiceChannelLeave(do action: @escaping (Member) -> Void) {
         on(.voiceChannelLeave) { data in
-            guard let (userID, voiceState) = data as? (Snowflake, VoiceState) else {
+            guard let userID = data as? Snowflake else {
                 log(level: .error, "Invalid data of type: \(type(of: data))")
                 return
             }
-            log(level: .debug, "Left voice channel\n  userID: \(userID)\n  Voice state: \(String(describing: voiceState))")
+            log(level: .debug, "Left voice channel\n  userID: \(userID)")
             
             self.getMember(userID, from: .publicHouse) { (member, error) in
                 guard let member = member else {
                     log(level: .error, "Could not find member for \(userID): \(error.debugDescription)")
                     return
                 }
-                action(member, voiceState)
+                action(member)
             }
         }
     }

@@ -24,7 +24,7 @@ final class AwardEngineTests: XCTestCase {
     }
     
     func testGamerAward() throws {
-        channelVisits[.amongUsTable] = 1
+        channelVisits[.jackboxTable] = 1
         XCTAssertEqual(evaluate(), [.gamer])
         XCTAssertEqual(evaluate(), [])
     }
@@ -50,8 +50,6 @@ final class AwardEngineTests: XCTestCase {
             .fatefulCup: 1,
             .redCouch: 1,
             .narnia: 1,
-            .caveOfTime: 1,
-            .caveOpening: 1,
         ]
 
         XCTAssertEqual(evaluate(), [])
