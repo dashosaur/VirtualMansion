@@ -8,5 +8,5 @@
 import Foundation
 
 enum VirtualMansionError: Error {
-    case unknownChannel
+    case unknownChannel(value: UInt64)
 }

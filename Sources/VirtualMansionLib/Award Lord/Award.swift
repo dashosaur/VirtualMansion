@@ -8,6 +8,7 @@ import Sword
 
 enum Award: UInt64 {
     case gamer = 794303640277483561
+    case sleuth = 794358182846791731
     case socialButterfly = 794304325047681034
     
     var snowflake: Snowflake {
@@ -20,6 +21,8 @@ extension Award {
         switch self {
         case .gamer:
             return "gamer"
+        case .sleuth:
+            return "sleuth"
         case .socialButterfly:
             return "social butterfly"
         }

@@ -69,8 +69,37 @@ enum KnownChannel: UInt64 {
     }
 }
 
+extension KnownChannel {
+    static let gamerChannels: Set<KnownChannel> = Set([
+        .largeTable,
+        .mediumTable,
+        .smallTable,
+        .amongUsTable,
+        .jackboxTable,
+    ])
+    
+    static let secretChannels: Set<KnownChannel> = Set([
+        .hallwayMirrorReverse,
+        .blanketFort,
+        .slopedRoof,
+        .fatefulCup,
+        .redCouch,
+        .narnia,
+        .caveOfTime,
+        .caveOpening,
+    ])
+}
+
 extension Snowflake {
     var knownChannel: KnownChannel? {
         KnownChannel(rawValue: rawValue)
+    }
+    
+    func getKnownChannel() throws -> KnownChannel {
+        if let channel = knownChannel {
+            return channel
+        } else {
+            throw VirtualMansionError.unknownChannel(value: rawValue)
+        }
     }
 }

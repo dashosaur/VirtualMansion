@@ -8,6 +8,8 @@ import Sword
 
 extension Sword {
     func grantAward(_ award: Award, to member: Member) {
+        log(level: .debug, "Granting award \(award) to \(member.user.debugIdenitifier)")
+
         let currentRoles = member.roles.map { $0.id.rawValue }
         guard !currentRoles.contains(award.rawValue) else {
             log(level: .error, "\(member.user.debugIdenitifier) already has the \(award) award, ignoring request to grant")

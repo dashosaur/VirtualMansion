@@ -17,7 +17,7 @@ struct VirtualMansion: ParsableCommand {
     var forceToken: String?
     
     @Flag(help: "Enable verbose print statements.")
-    var verbose = false
+    var debug = false
     
     func validate() throws {
         guard mirrorToken != nil || awardToken != nil || forceToken != nil else {
@@ -29,7 +29,7 @@ struct VirtualMansion: ParsableCommand {
     }
     
     func run() throws {
-        verboseLoggingEnabled = verbose
+        verboseLoggingEnabled = debug
         
         let database = try Database(path: nil)
         

@@ -13,17 +13,14 @@ protocol DatabaseTable {
 }
 
 struct Visits: DatabaseTable {
-    
     let table = Table("visits")
     let user = Expression<Int64>("user_id")
     let channel = Expression<Int64>("channel_id")
     let count = Expression<Int64>("count")
     let lastVisitedAt = Expression<Double>("last_visited_at")
-
 }
 
 public class Database {
-    
     let connection: Connection
     
     // Visits table
@@ -58,13 +55,11 @@ public class Database {
             }
         }
     }
-    
 }
 
 // MARK: -
 
 extension Visits {
-    
     func createTable(with connection: Connection) throws {
         try connection.run(table.create(ifNotExists: true) { t in
             t.column(user)
@@ -95,5 +90,4 @@ extension Visits {
         }
         return result
     }
-    
 }
