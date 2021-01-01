@@ -89,7 +89,7 @@ public struct AwardLord: Bot {
         switch command {
         case .awards:
             let myAwards = msg.member?.awards ?? []
-            let nickname = msg.member?.nick ?? "<unknown>"
+            let nickname = msg.member?.nick ?? (msg.member?.user.username ?? "<unknown>")
             let availableAwards = Set(myAwards).symmetricDifference(Award.allCases)
             let myAwardsDescription = myAwards.map { $0.fullName }.joined(separator: "\n")
             let availableAwardsDescription = availableAwards.map { $0.fullName }.joined(separator: "\n")
