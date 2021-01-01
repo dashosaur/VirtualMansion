@@ -82,8 +82,10 @@ extension KnownChannel {
     
     static let secretChannels: Set<KnownChannel> = Set([
         .hallwayMirrorReverse,
+        .garage,
         .blanketFort,
         .slopedRoof,
+        .creakyRoof,
         .fatefulCup,
         .redCouch,
         .narnia,

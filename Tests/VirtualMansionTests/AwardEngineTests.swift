@@ -46,7 +46,9 @@ final class AwardEngineTests: XCTestCase {
             .hallwayMirrorReverse: 1,
             .blanketFort: 1,
             .slopedRoof: 1,
+            .creakyRoof: 1,
             .fatefulCup: 1,
+            .redCouch: 1,
             .narnia: 1,
             .caveOfTime: 1,
             .caveOpening: 1,
@@ -54,7 +56,7 @@ final class AwardEngineTests: XCTestCase {
 
         XCTAssertEqual(evaluate(), [])
         
-        channelVisits[.redCouch] = 1
+        channelVisits[.garage] = 1
         XCTAssertEqual(evaluate(), [.sleuth])
         XCTAssertEqual(evaluate(), [])
     }
