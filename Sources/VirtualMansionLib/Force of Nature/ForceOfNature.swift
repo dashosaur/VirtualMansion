@@ -86,7 +86,7 @@ public final class ForceOfNature: Bot {
                 }
                 log(level: .debug, "Updated hot tub capacity to \(capacity)")
                 
-                let message = "\(lastMember.user.username ?? "Someone") slips into the last spot in the hot tub, but a Public House hot tub always has room for one more. The capacity has expanded to \(capacity). Invite your friends to join!"
+                let message = "\(lastMember.name) slips into the last spot in the hot tub, but a Public House hot tub always has room for one more. The capacity has expanded to \(capacity). Invite your friends to join!"
                 self.notifyHotTubGuests(message: message)
             }
         }
@@ -111,7 +111,7 @@ public final class ForceOfNature: Bot {
                 }
                 log(level: .debug, "Updated hot tub capacity to \(capacity)")
                 
-                let message = "\(lastMember.user.username ?? "Someone") leaves the hot tub and it shrinks a bit just to conserve water."
+                let message = "\(lastMember.name) leaves the hot tub and it shrinks a bit just to conserve water."
                 self.notifyHotTubGuests(message: message)
             }
         }

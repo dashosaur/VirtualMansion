@@ -20,3 +20,9 @@ extension User {
         "<@\(id.rawValue)>"
     }
 }
+
+extension Member {
+    var name: String {
+        nick ?? user.username ?? "someone"
+    }
+}
