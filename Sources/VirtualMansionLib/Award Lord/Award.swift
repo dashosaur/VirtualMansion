@@ -7,7 +7,7 @@
 import Sword
 
 enum Award: UInt64 {
-    case achievementUnlocked = 794411292391374850
+//    case achievementUnlocked = 794411292391374850
     case cannonball = 794411077621645334
     case gamer = 794303640277483561
     case goddam = 794412021587247144
@@ -29,7 +29,7 @@ enum Award: UInt64 {
 extension Award: CaseIterable {
     var inlineName: String {
         switch self {
-        case .achievementUnlocked:      return "achievement unlocked"
+//        case .achievementUnlocked:      return "achievement unlocked"
         case .cannonball:               return "cannonball"
         case .gamer:                    return "gamer"
         case .goddam:                   return "I said goddam!"
@@ -47,7 +47,7 @@ extension Award: CaseIterable {
     
     var emojiName: String {
         switch self {
-        case .achievementUnlocked:      return "🏅"
+//        case .achievementUnlocked:      return "🏅"
         case .cannonball:               return "💦"
         case .gamer:                    return "🕹"
         case .goddam:                   return "💄"

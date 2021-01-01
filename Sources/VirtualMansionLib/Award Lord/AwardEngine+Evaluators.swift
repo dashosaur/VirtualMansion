@@ -57,11 +57,25 @@ extension AwardEngine {
             return userState.channelVisits[.discotheque, default: 0] >= 5 ? .saturdayNightFever : nil
         }
         
+        // 🐛 Social Caterpillar: Visit 5 party rooms.
+        addEvaluator { userState in
+            guard !userState.existingAwards.contains(.socialCaterpillar) else { return nil }
+            return KnownChannel.socialChannels.intersection(userState.visitedChannels).count >= 5 ? .socialCaterpillar : nil
+        }
+        
+        // 🐛👑 Social Chrysalis: Visit 10 party rooms.
+        addEvaluator { userState in
+            guard !userState.existingAwards.contains(.socialChrysalis) else { return nil }
+            return KnownChannel.socialChannels.intersection(userState.visitedChannels).count >= 10 ? .socialChrysalis : nil
+        }
+        
+        // 🦋 Social Butterfly: Visit all social rooms.
+        addEvaluator { userState in
+            guard !userState.existingAwards.contains(.socialButterfly) else { return nil }
+            return KnownChannel.socialChannels.isSubset(of: userState.visitedChannels) ? .socialButterfly : nil
+        }
+        
         // TODO:
-//        Social Butterfly    🦋    Visit all party VCs (excluding tech-support)
-//        Social Caterpillar    🐛    Visit 5 party rooms
-//        Social Chrysalis    🐛👑    Visit 10 party rooms
-//        Hot Tub Tardis    🧖    Be one of 20 simultaneous people in the Hot Tub
 //        Achievement Unlocked    🏅    Get 5 awards
 //        Suffering from Quiplash    🤣    Visit the Jackbox Table (3x/20m)
     }

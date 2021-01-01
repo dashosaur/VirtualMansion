@@ -85,6 +85,47 @@ extension KnownChannel {
         .redCouch,
         .narnia,
     ])
+    
+    static let socialChannels: Set<KnownChannel> = Set([
+        // Ground Floor
+        .hallwayMirror,
+        .parlor,
+        .sunRoom,
+        .cloakroom,
+        .library,
+        .broomCloset,
+        .powderRoom,
+        .pantry,
+        
+        // 2nd Floor
+        .bayWindowSeat,
+        .theater,
+        .dustinsRoom,
+        .quietRoom,
+        .jamRoom,
+        .wardrobe,
+            
+        // 3rd Floor
+        .bathroom,
+        .turret,
+        .observatory,
+        
+        // Backyard
+        .firepit,
+        .hotTub,
+        .treehouse,
+        
+        // Games Attic
+        .largeTable,
+        .mediumTable,
+        .smallTable,
+        .jackboxTable,
+        
+        // Dance Hall
+        .lounge,
+        .swingFloor,
+        .discotheque,
+    ])
 }
 
 extension Snowflake {
