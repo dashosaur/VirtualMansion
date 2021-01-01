@@ -12,6 +12,8 @@ public struct TheMirror: Bot {
     private let sword: Sword
     private let guild: Guild
     
+    public var botName: String { "The Mirror" }
+    
     public init(sword: Sword, guild: Guild, database: Database) {
         self.sword = sword
         self.guild = guild
@@ -20,29 +22,17 @@ public struct TheMirror: Bot {
     public func run() {
         sword.editStatus(to: "online", playing: "with your heart")
         
-        sword.on(.voiceChannelJoin) { data in
-            guard let (snowflake, voiceState) = data as? (Snowflake, VoiceState) else {
-                log(level: .error, "Invalid data of type: \(type(of: data))")
-                return
-            }
-            log(level: .debug, "Joined voice channel\n  Snowflake: \(snowflake)\n  Voice state: \(String(describing: voiceState))")
-            sword.getUser(snowflake) { (user, error) in
-                guard let user = user else {
-                    log(level: .error, "Invalid user: \(String(describing: error))")
-                    return
-                }
-                
-                let knownChannel = voiceState.channelId.knownChannel
-                switch knownChannel {
-                case .hallwayMirror:
-                    complimentUser(user)
-                case .hallwayMirrorReverse:
-                    complimentUser(user, reversed: true)
-                case .none:
-                    log(level: .error, "Unknown channel: \(voiceState.channelId.rawValue)")
-                default:
-                    log(level: .debug, "Irrelevant channel: \(knownChannel!)")
-                }
+        sword.onVoiceChannelJoin { (member, voiceState) in
+            let knownChannel = voiceState.channelId.knownChannel
+            switch knownChannel {
+            case .hallwayMirror:
+                complimentUser(member.user)
+            case .hallwayMirrorReverse:
+                complimentUser(member.user, reversed: true)
+            case .none:
+                log(level: .error, "Unknown channel: \(voiceState.channelId.rawValue)")
+            default:
+                log(level: .debug, "Irrelevant channel: \(knownChannel!)")
             }
         }
     }

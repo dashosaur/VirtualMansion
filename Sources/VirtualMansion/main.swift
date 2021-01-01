@@ -1,6 +1,7 @@
 import ArgumentParser
-import VirtualMansionLib
+import Foundation
 import Sword
+import VirtualMansionLib
 
 struct VirtualMansion: ParsableCommand {
     static let configuration = CommandConfiguration(abstract: "If you have to ask you're not invited.",
@@ -9,17 +10,20 @@ struct VirtualMansion: ParsableCommand {
     @Option(help: "The token for The Mirror bot.")
     var mirrorToken: String?
     
-    @Option(help: "The token for Award bot.")
+    @Option(help: "The token for Award Lord bot.")
     var awardToken: String?
+    
+    @Option(help: "The token for Force of Nature bot.")
+    var forceToken: String?
     
     @Flag(help: "Enable verbose print statements.")
     var verbose = false
     
     func validate() throws {
-        guard mirrorToken != nil || awardToken != nil else {
+        guard mirrorToken != nil || awardToken != nil || forceToken != nil else {
             throw ValidationError("No token provided.")
         }
-        guard mirrorToken == nil || awardToken == nil else {
+        guard [mirrorToken, awardToken, forceToken].filter({ $0 != nil }).count == 1 else {
             throw ValidationError("Only one token can be provided at a time.")
         }
     }
@@ -29,13 +33,17 @@ struct VirtualMansion: ParsableCommand {
         
         let database = try Database(path: nil)
         
-        log("You have entered the mansion.")
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
+        log("\nYou have entered the mansion. The clock reads \(dateFormatter.string(from: Date())).")
         
         let token: String
         if let mirrorToken = mirrorToken {
             token = mirrorToken
         } else if let awardToken = awardToken {
             token = awardToken
+        } else if let forceToken = forceToken {
+            token = forceToken
         } else {
             fatalError()
         }
@@ -51,9 +59,13 @@ struct VirtualMansion: ParsableCommand {
                 bot = TheMirror(sword: sword, guild: guild, database: database)
             } else if awardToken != nil {
                 bot = AwardLord(sword: sword, guild: guild, database: database)
+            } else if forceToken != nil {
+                bot = ForceOfNature(sword: sword, guild: guild, database: database)
             } else {
                 fatalError()
             }
+            
+            log("\(bot.botName) is here at your service.\n")
             
             bot.run()
         }

@@ -10,4 +10,6 @@ import Sword
 public protocol Bot {
     init(sword: Sword, guild: Guild, database: Database)
     func run()
+    
+    var botName: String { get }
 }

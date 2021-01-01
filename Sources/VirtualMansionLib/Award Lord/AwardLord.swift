@@ -12,6 +12,8 @@ public struct AwardLord: Bot {
     private let sword: Sword
     private let guild: Guild
     private let database: Database
+    
+    public var botName: String { "Award Lord" }
 
     public init(sword: Sword, guild: Guild, database: Database) {
         self.sword = sword
@@ -21,30 +23,17 @@ public struct AwardLord: Bot {
     
     public func run() {
         sword.editStatus(to: "online", playing: "judging your achievements")
-
-        sword.on(.voiceChannelJoin) { data in
-            guard let (userID, voiceState) = data as? (Snowflake, VoiceState) else {
-                log(level: .error, "Invalid data of type: \(type(of: data))")
-                return
+        
+        sword.onVoiceChannelJoin { (member, voiceState) in
+            do {
+                try onChannelJoin(userID: member.user.id, voiceState: voiceState)
+            } catch {
+                log(level: .error, "Failed to handle channel join: \(error)")
             }
-            log(level: .debug, "Joined voice channel\n  userID: \(userID)\n  Voice state: \(String(describing: voiceState))")
             
-            sword.getMember(userID, from: .publicHouse) { (member, error) in
-                guard let member = member else {
-                    log(level: .error, "Could not find member for \(userID): \(error.debugDescription)")
-                    return
-                }
-                
-                do {
-                    try onChannelJoin(userID: userID, voiceState: voiceState)
-                } catch {
-                    log(level: .error, "Failed to handle channel join: \(error)")
-                }
-                
-                // TODO: remove once we have a generic engine
-                if voiceState.channelId.rawValue == KnownChannel.largeTable.rawValue {
-                    sword.grantAward(.gamer, to: member)
-                }
+            // TODO: remove once we have a generic engine
+            if voiceState.channelId.rawValue == KnownChannel.largeTable.rawValue {
+                sword.grantAward(.gamer, to: member)
             }
         }
 
