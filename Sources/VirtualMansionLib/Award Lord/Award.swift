@@ -58,7 +58,7 @@ extension Award: CaseIterable {
         case .sleuth:                   return "🔎"
         case .socialButterfly:          return "🦋"
         case .socialCaterpillar:        return "🐛"
-        case .socialChrysalis:          return "🐛👑"
+        case .socialChrysalis:          return "🧬"
         case .sufferingFromQuiplash:    return "🤣"
         }
     }
@@ -69,10 +69,12 @@ extension Award: CaseIterable {
         "<user> just earned the <award> award. Congratulations!",
         "<user> you're amazing! You now have the <award> award.",
         "WOWOWOW check out <user> who is officially a <award>!!",
+        "...and the <award> award goes to <user>!",
+        "Stop the party. <user> has just earned the <award> award.",
     ]
     
     var randomAnnouncementFormat: String {
-        var announcements = Self.genericAnnouncementOptions
+        let announcements: [String]
         switch self {
         case .gamer:
             announcements = [
@@ -81,15 +83,20 @@ extension Award: CaseIterable {
             ]
         case .narcissisticNarwhal:
             announcements = [
-                "<user>, you look very pretty tonight. You've been awarded the Narcissistic Narwhal role for looking in the hallway mirror 10 times."
+                "<user>, looking good tonight. You've earned the <award> award for how many times you've glanced in the hallway mirror.",
+                "Who's the prettiest <award> of them all? <user>, of course. Congrats on your new award.",
             ]
         case .sleuth:
             announcements = [
-                "Good detective work 🔎, <user>!"
+                "Good detective work 🔎, <user>!",
+                "<user> is getting clever with the sleuthing tonight. Excellent work.",
             ]
-        
+        case .cannonball:
+            announcements = Self.genericAnnouncementOptions + [
+                "SPLASH! <user> just earned the <award> award!",
+            ]
         default:
-            break
+            announcements = Self.genericAnnouncementOptions
         }
         
         return announcements.randomElement()!
